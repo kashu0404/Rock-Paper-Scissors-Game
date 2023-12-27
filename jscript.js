@@ -9,6 +9,13 @@ updateScoreElement();
 
 //console.log(score);
 
+//dealing with Auto Play button
+
+document.querySelector('.auto-play-button')
+  .addEventListener('click', () => {
+    autoPlay();
+});
+
 let isAutoPlaying = false;
 let intervalID;
 
@@ -18,11 +25,64 @@ function autoPlay() {
             playGame(pickComputerMove());
         }, 1000);
         isAutoPlaying=true;
+        document.querySelector('.auto-play-button').innerHTML="Stop Playing";
     } else {
         clearInterval(intervalID);
         isAutoPlaying = false;
+        document.querySelector('.auto-play-button').innerHTML="Auto Play";
     }
 
+}
+
+//ends here
+
+document.querySelector('.js-rock-button').addEventListener('click', () => {
+    playGame('rock');
+});
+
+document.querySelector('.js-paper-button').addEventListener('click', () => {
+    playGame('paper');
+});
+
+document.querySelector('.js-scissors-button').addEventListener('click', () => {
+    playGame('scissors');
+});
+
+
+document.body.addEventListener('keydown', (event) => {
+    if (event.key === 'r') {
+        playGame('rock');
+    } else if (event.key === 'p') {
+        playGame('paper');
+    } else if (event.key==='s') {
+        playGame('scissors');
+    } else if (event.key==='a') {
+        autoPlay();
+    } else if (event.key==='Backspace') {
+        displayWarning();
+    }
+})
+
+function displayWarning() {
+    document.querySelector('.warningMessage').innerHTML = `Are you sure you want to reset the score?<button class="yes">Yes</button><button class="no">No</button>`
+
+    document.querySelector('.yes').addEventListener('click', () => {
+        resetScore();
+        document.querySelector('.warningMessage').innerHTML = "";
+    })
+
+    document.querySelector('.no ').addEventListener('click', () => {
+        document.querySelector('.warningMessage').innerHTML = "";
+    })
+}
+
+function resetScore() {
+
+    score.win = 0;
+    score.loss = 0;
+    score.tie = 0;
+    localStorage.removeItem('score');
+    updateScoreElement();
 }
 
 function playGame(playerMove) {
@@ -97,12 +157,12 @@ function playGame(playerMove) {
 
 }
 
-    function updateScoreElement() {
+function updateScoreElement() {
                 document.querySelector('.js-score')
                 .innerHTML = `Wins: ${score.win}, Losses: ${score.loss}, Ties:${score.tie}`;
-    }
+}
 
-    function pickComputerMove() {
+function pickComputerMove() {
         const randomNumber = Math.random();
 
         let computerMove= '';
@@ -116,4 +176,4 @@ function playGame(playerMove) {
         }
 
         return computerMove;
-    }
+}
