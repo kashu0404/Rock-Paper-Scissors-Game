@@ -9,6 +9,22 @@ updateScoreElement();
 
 //console.log(score);
 
+let isAutoPlaying = false;
+let intervalID;
+
+function autoPlay() {
+    if (!isAutoPlaying) {
+        intervalID=setInterval(function () {
+            playGame(pickComputerMove());
+        }, 1000);
+        isAutoPlaying=true;
+    } else {
+        clearInterval(intervalID);
+        isAutoPlaying = false;
+    }
+
+}
+
 function playGame(playerMove) {
 
     const computerMove=pickComputerMove();
