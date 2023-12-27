@@ -71,7 +71,7 @@ h1 {
     text-align: center;
 }
 
-.reset-button {
+.reset-button, .auto-play-button {
     background-color: white;
     border: none;
     font-weight: bold;
